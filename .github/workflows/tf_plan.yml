@@ -15,13 +15,6 @@ jobs:
       run:
         shell: bash
 
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v2
-
-    defaults:
-    run:
-      working-directory: ${{ env.tf_actions_working_dir }}
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
@@ -80,3 +73,4 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
