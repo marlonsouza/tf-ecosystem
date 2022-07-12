@@ -36,4 +36,4 @@ jobs:
 
     - name: Terraform Destroy
       id: destroy
-      run: terraform destroy -auto-aprove -lock=false -var-file="enviroments/aws_prod/terraform.tfvars"
+      run: terraform destroy -auto-approve -lock=false -var-file="enviroments/aws_prod/terraform.tfvars"

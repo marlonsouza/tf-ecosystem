@@ -37,4 +37,4 @@ jobs:
 
     - name: Terraform Apply
       id: apply
-      run: terraform apply -auto-aprove -lock=false -var-file="enviroments/aws/terraform.tfvars"
+      run: terraform apply -auto-approve -lock=false -var-file="enviroments/aws/terraform.tfvars"
