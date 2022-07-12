@@ -8,7 +8,7 @@ provider "aws" {
   default_tags {
     tags = {
       Project   = "TF Ecosystem"
-      CreatedAt = "2022-07-11"
+      CreatedAt = "2022-07-12"
       ManagedBy = "Terraform"
       Owner     = "Marlon Souza"
     }

@@ -15,13 +15,6 @@ jobs:
       run:
         shell: bash
 
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v2
-
-    defaults:
-    run:
-      working-directory: ${{ env.tf_actions_working_dir }}
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
@@ -41,7 +34,7 @@ jobs:
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -var-file="enviroments/aws/terraform.tfvars"
+      run: terraform plan -no-color -lock=false -var-file="enviroments/aws/terraform.tfvars"
       continue-on-error: true
 
     - uses: actions/github-script@v6
@@ -80,3 +73,5 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+  
