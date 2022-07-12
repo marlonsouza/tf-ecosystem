@@ -1,0 +1,39 @@
+name: Destroy prod
+
+on: 
+  workflow_dispatch:
+    inputs:
+      description: 'Reason to destroy'
+      required: true
+env:
+  AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+jobs:
+  plan-aws:
+    name: 'terraform destroy prod'
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+
+    - name: Terraform Init
+      id: init 
+      run: terraform init -backend=true -backend-config="enviroments/aws_prod/backend.hcl"
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+
+    - name: Terraform Destroy
+      id: destroy
+      run: terraform destroy -auto-aprove -lock=false -var-file="enviroments/aws_prod/terraform.tfvars"
