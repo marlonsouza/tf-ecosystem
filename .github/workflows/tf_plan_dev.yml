@@ -15,7 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         path:
-          - hs-**
+          - hs-event-scheduler
+          - hs-traffic-events
 
     defaults: 
       run:
@@ -33,19 +34,19 @@ jobs:
     - name: Terraform Init
       id: init 
       run: 
-        cd ./${{ matrix.path }}
+        cd tf-ecosystem/${{ matrix.path }}
         terraform init -backend=true -backend-config="enviroments/aws/backend.hcl"
 
     - name: Terraform Validate
       id: validate
       run: 
-        cd ./${{ matrix.path }}
+        cd tf-ecosystem/${{ matrix.path }}
         terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
       run: 
-        cd ./${{ matrix.path }}
+        cd tf-ecosystem/${{ matrix.path }}
         terraform plan -no-color -lock=false -var-file="enviroments/aws/terraform.tfvars"
       continue-on-error: true
 
