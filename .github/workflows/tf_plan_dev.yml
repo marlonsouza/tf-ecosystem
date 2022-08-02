@@ -26,15 +26,21 @@ jobs:
 
     - name: Terraform Init
       id: init 
-      run: terraform init -backend=true -backend-config="enviroments/aws/backend.hcl"
+      run: 
+        cd ./${{ matrix.path }}
+        terraform init -backend=true -backend-config="enviroments/aws/backend.hcl"
 
     - name: Terraform Validate
       id: validate
-      run: terraform validate -no-color
+      run: 
+        cd ./${{ matrix.path }}
+        terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -lock=false -var-file="enviroments/aws/terraform.tfvars"
+      run: 
+        cd ./${{ matrix.path }}
+        terraform plan -no-color -lock=false -var-file="enviroments/aws/terraform.tfvars"
       continue-on-error: true
 
     - uses: actions/github-script@v6
