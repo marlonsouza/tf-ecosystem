@@ -39,14 +39,14 @@ jobs:
 
     - name: Terraform Validate
       id: validate
+      working-directory: ${{ matrix.path }}
       run: 
-        cd tf-ecosystem/${{ matrix.path }}
         terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
+      working-directory: ${{ matrix.path }}
       run: 
-        cd tf-ecosystem/${{ matrix.path }}
         terraform plan -no-color -lock=false -var-file="../enviroments/aws/terraform.tfvars"
       continue-on-error: true
 
