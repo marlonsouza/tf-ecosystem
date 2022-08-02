@@ -11,6 +11,12 @@ jobs:
   plan-aws:
     name: 'terraform plan aws'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - ./**
+
     defaults: 
       run:
         shell: bash
