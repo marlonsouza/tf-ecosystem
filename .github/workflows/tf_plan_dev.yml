@@ -52,10 +52,10 @@ jobs:
 
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
-      working-directory: ${{ matrix.path }}
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
+        allow-repeats: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
