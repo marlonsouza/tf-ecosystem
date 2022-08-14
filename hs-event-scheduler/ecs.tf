@@ -8,7 +8,7 @@ resource "aws_ecr_repository" "event-scheduler-repo" {
 }
 
 resource "aws_ecs_cluster" "event-scheduler-cluster" {
-  name = "python-app-cluster"
+  name = "event-scheduler-cluster"
 
   setting {
     name  = "containerInsights"
