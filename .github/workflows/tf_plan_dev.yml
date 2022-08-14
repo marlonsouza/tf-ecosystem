@@ -11,6 +11,13 @@ jobs:
   plan-aws:
     name: 'terraform plan aws'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - hs-event-scheduler
+          - hs-traffic-events
+
     defaults: 
       run:
         shell: bash
@@ -26,22 +33,29 @@ jobs:
 
     - name: Terraform Init
       id: init 
-      run: terraform init -backend=true -backend-config="enviroments/aws/backend.hcl"
+      working-directory: ${{ matrix.path }}
+      run: 
+        terraform init -backend=true -backend-config="../enviroments/aws/backend.hcl"
 
     - name: Terraform Validate
       id: validate
-      run: terraform validate -no-color
+      working-directory: ${{ matrix.path }}
+      run: 
+        terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -lock=false -var-file="enviroments/aws/terraform.tfvars"
+      working-directory: ${{ matrix.path }}
+      run: 
+        terraform plan -no-color -lock=false -var-file="../enviroments/aws/terraform.tfvars"
       continue-on-error: true
-
+      
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
+        allow-repeats: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`

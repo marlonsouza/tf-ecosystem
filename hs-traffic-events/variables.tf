@@ -15,8 +15,3 @@ variable "environment" {
   description = "The environment to deploy to"
   default     = "dev"
 }
-
-variable "instance_type" {
-  type        = string
-  description = "The instance power"
-}
